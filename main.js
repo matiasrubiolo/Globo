@@ -1,84 +1,73 @@
-window.onload = iniciar;
+const app = Vue.createApp({
+    data() {
+        return{
+            logo:"https://i.imgur.com/Qx8uR89.png",
+            usuario:"",
+            comentarios: [],
 
-function iniciar(){
-    let buttonseguir = document.getElementById("seguir");
-    buttonseguir.addEventListener("click",cambiarcolor);
+            foto:"https://i.imgur.com/99qgQJy.jpeg",
+            nombre: "Jane Doe",
+            email: "jane_doe@email.com",
+            fechaNacimiento : "01/05/1996",
+            telefono: "918-936-9585",
+            ciudad: "Tokyo, Japan",
+            trabajo: "Lawn N",
+            botonSeguir : "Seguir",
+            fondoSeguir: "#3b82f6",
 
-    let buttonmegusta = document.getElementById("megusta");
-    buttonmegusta.addEventListener("click",megusta);
+            sobremi: "¡Hola a todos! Soy Jane, y actualmente vivo en la vibrante y emocionante ciudad de Tokio,Japón.Me encanta capturar la esencia de la vida urbana a través de mi lente,explorando el constraste ente la arquitectura moderna y las tradiciones centenarias que conviven en esta metrópolis única.Desde rascacielos deslumbrantes y calles bulliciosas hasta templos serenos y jardines tranquilos, encuentro inspiracion en cada rincón de esta increíble ciudad.",
+            
+            publicacion: "https://i.imgur.com/bq9db41.jpeg ",
 
-    let buttoneleminar = document.getElementById("eliminar");
-    buttoneleminar.addEventListener("click", eliminar);
+            botonLike: "Me gusta",
+            fondoLike: "#f4f4f5",
+            textoLike: "#3b82f6",
+            likes:201,
 
-    let buttoncomentar = document.getElementById("comentar");
-    buttoncomentar.addEventListener("click",agregarComentario);
-}
+            comentario:""
+        } 
+    },
+    methods:{
+        seguidor(){
+            if(this.botonSeguir === "Seguir"){
+                this.botonSeguir = "Dejar de seguir";
+                this.fondoSeguir = "#ff0000";
+            }else{
+                this.botonSeguir = "Seguir";
+                this.fondoSeguir = "#3b82f6"
 
-function agregarComentario(){
-    let usuario = document.getElementById("usuario").value;
-    let comentario = document.getElementById("comentario").value;
-    if(usuario != "" && comentario != "") {
-        let nuevoComentario = document.createElement("div");
-        nuevoComentario.classList.add("micomentario");
+            }
+        },
+        darLike(){
+            if(this.botonLike === "Me gusta"){
+                this.botonLike = "Quitar Me gusta";
+                this.likes += 1;
+                this.fondoLike = "#ff0000";
+                this.textoLike = "#f4f4f5";
 
-        let nombreUsuario = document.createElement("p");
-        nombreUsuario.innerHTML = "<span id='yo'>" + usuario + "</span> " + comentario;
+            }else{
+                this.fondoLike = "#f4f4f5"
+                this.botonLike = "Me gusta";
+                this.likes -= 1;
+                this.textoLike = "#3b82f6";
+            }
+        },
+        comentar(){
+            if(this.usuario === ""){
+                this.$refs.usuario.focus();
+            }else if(this.comentario === ""){
+                this.$refs.comentario.focus();
+            }else{
+                let comentario = {
+                    usuario : this.usuario,
+                    comentario : this.comentario
+                }
 
-        nuevoComentario.appendChild(nombreUsuario);
-        let botonEliminar = document.createElement("button");
-        botonEliminar.id = "eliminar";
-        botonEliminar.textContent = "Eliminar";
-        nuevoComentario.appendChild(botonEliminar);
-
-        botonEliminar.addEventListener("click",eliminar);
-
-
-        let comentar = document.querySelector(".comentar");
-        let contenedorComentarios = comentar.parentElement;
-        contenedorComentarios.insertBefore(nuevoComentario, comentar);
-
-        document.getElementById("comentario").value = "";
-        document.getElementById("usuario").style.border = "";
-        document.getElementById("comentario").style.border = "";
-    } else if(usuario == ""){
-        document.getElementById("usuario").focus();
-        document.getElementById("usuario").setAttribute("placeholder", "Por favor, ingresa tu usuario");
-        document.getElementById("usuario").style.border = "1px solid #ff0000";
-    }else{
-        document.getElementById("comentario").focus();
-        document.getElementById("comentario").setAttribute("placeholder", "Por favor, ingresa tu comentario");
-        document.getElementById("comentario").style.border = "1px solid #ff0000";
+                this.usuario = "";
+                this.comentario = "";
+            }
+        }
     }
+});
 
-}
-
-function eliminar(){
-    let comentario = document.querySelector(".micomentario");
-    comentario.remove();
-}
-
-function megusta(){
-    let buttonmegusta = document.getElementById("megusta");
-    let likes = document.getElementById("likes");
-    if(buttonmegusta.textContent === "Me gusta"){
-        buttonmegusta.textContent = "Quitar me gusta";
-        buttonmegusta.style.color = "#ff0000";
-        likes.textContent = "201";
-    }
-    else{
-        buttonmegusta.textContent = "Me gusta";
-        buttonmegusta.style.color = "#3b82f6";
-        likes.textContent = "200";
-    }
-}
-
-function cambiarcolor(){
-    let buttonseguir = document.getElementById("seguir");
-    if(buttonseguir.textContent == "Dejar de seguir"){
-        buttonseguir.style.backgroundColor = "#3b82f6";
-        buttonseguir.textContent = "Seguir";
-    }else{
-        buttonseguir.style.backgroundColor = "#ff0000";
-        buttonseguir.textContent = "Dejar de seguir";
-    }
-}
+const mountedApp = app.mount('#app');
