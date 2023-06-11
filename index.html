@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Globo</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
 </head>
 <body>
@@ -15,18 +15,7 @@
             <input id="usuario" v-model="usuario" ref="usuario" type="text" placeholder="Ingresa tu usuario...">
         </header>
         <main>
-            <div class="informacion">
-                <img :src="foto" alt="Picture Jane Doe">
-                <div class="info">
-                    <h1>{{nombre}}</h1>
-                    <p><span>Email</span>: {{email}}</p>
-                    <p><span>Fecha de nacimiento</span>: {{fechaNacimiento}}</p>
-                    <p><span>Telfono</span>: {{telefono}}</p>
-                    <p><span>Ciudad</span>: {{ciudad}}</p>
-                    <p class="work">Trabando en <span>{{trabajo}}</span></p>
-                </div>
-                <button @click="seguidor" :style="{ backgroundColor: fondoSeguir }">{{botonSeguir}}</button>
-            </div>
+            <profile-data></profile-data>
             <div class="publicaciones">
                 <p class="fecha">Publicado hace 1 semana</p>
                 <img :src="publicacion" alt="Picture of street in Japon">
@@ -38,11 +27,9 @@
                 <div class="comentarios">
                     <p><span>Juan Perez</span>  ¡Wow, esa foto de Tokio es impresionante</p>
                     <p><span>Kathleen J Rennie</span> ¡Esta foto de Tokio es simplemente espectaular! Me trae tantos recuerdos.</p>
-    
-                    <div class="comentar">
-                        <input id="comentario" v-model="comentario" ref="comentario" type="text" placeholder="Deja tu comentario...">
-                        <button id="comentar" @click="comentar">Comentar</button>
-                    </div>
+                    
+                    <mostrar-comentarios :comentarios="comentarios" :usuario="usuario"></mostrar-comentarios>
+                    <publicar-comentario :usuario="usuario" @enviar-comentario="guardarComentario" @falta-campo="datasIncompletos"></publicar-comentario>
                 </div>
             </div>
             <div class="sobremi">
@@ -53,5 +40,11 @@
     </div>
 
     <script src="main.js"></script>
+    <script src="./component/ProfileData.js"></script>
+    <script src="./component/PublicarComentario.js"></script>
+    <script src="./component/MostrarComentarios.js"></script>
+    <script>
+        const mountedApp = app.mount('#app');
+    </script>
 </body>
 </html>
